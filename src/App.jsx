@@ -18,8 +18,9 @@ function App() {
       <div className={styles.content}>
         <Header />
         {selectedTab==="Home"?
-        <PostList/>:
-        <CreatePost/>
+        <PostList/>
+        :
+        <CreatePost setSelectedTab={setSelectedTab}/>
         }
         <Footer />
       </div>

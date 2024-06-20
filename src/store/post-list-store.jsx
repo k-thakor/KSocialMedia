@@ -6,7 +6,6 @@ const DEFAULT_POST_LIST=[{
   body:'Hi Friends, I am going to Mumbai for the vacations. Hope to enjoy a lot!!!!',
   reactions:2,
   userId:'116',
-  url:'KSocialMedia/src/assets/graduation.jpg',
   tags:['vacation','Mumbai','Enjoy']
 },{
   id:'2',
@@ -14,7 +13,6 @@ const DEFAULT_POST_LIST=[{
   body:'4 saal ki masti ke bad bhi ho gye hai pass',
   reactions:15,
   userId:'16',
-  url:'',
   tags:['pass','graduation','unbelievable']
 }];
 //created context for postList
@@ -24,12 +22,15 @@ export const PostListContext=createContext({postList:[],
 })
 
 const postListReducer=(currPostList,action)=>{
-   console.log(action)
     let newPostList=currPostList;
     if(action.type==="DELETE_POST")
     {
       newPostList=currPostList.filter((post)=>post.id !==action.payload.postId)
     }
+    else if(action.type==="ADD_POST")
+      {
+       newPostList=[action.payload,...newPostList];
+      }
   return newPostList;
 }
 
@@ -38,11 +39,12 @@ const PostListProvider=({children})=>{
   
   const [postList, dispatchPostList]=useReducer(postListReducer,DEFAULT_POST_LIST);
 
-  const addPost=(postId)=>{
+  const addPost=(userId,postTitle,postBody,reactions,tags)=>{
     dispatchPostList({
-      type:"DELETE_POST",
+      type:"ADD_POST",
       payload:{
-        postId
+        id:Date.now(),
+        userId,title:postTitle,body:postBody,reactions,tags
       }
     });
 
