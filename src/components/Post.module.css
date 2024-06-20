@@ -1,0 +1,11 @@
+.post_card{
+  margin :20px 50px;
+  min-width:  "30rem";
+}
+.post_reactions{
+  margin-top: 10px;
+}
+.post_tags{
+  padding: 10px;
+  margin-right: 3px;
+}
