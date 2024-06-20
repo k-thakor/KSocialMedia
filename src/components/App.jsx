@@ -4,7 +4,7 @@ import Header from "./components/Header";
 import SideBar from "./components/SideBar";
 import styles from "./App.module.css";
 import CreatePost from "./components/CreatePost";
-import PostList from "./components/PostList";
+import Posts from "./components/Posts";
 function App() {
   return (
     <div class={styles.appcontainer}>
@@ -12,7 +12,7 @@ function App() {
       <div class={styles.content}>
         <Header />
         <CreatePost/>
-        <PostList/>
+        <Posts/>
         <Footer />
       </div>
     </div>
