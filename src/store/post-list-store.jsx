@@ -19,6 +19,7 @@ const DEFAULT_POST_LIST=[{
 export const PostListContext=createContext({postList:[], 
   addPost:()=>{},
   deletePost:()=>{},
+  addAllPost:()=>{}
 })
 
 const postListReducer=(currPostList,action)=>{
@@ -31,13 +32,17 @@ const postListReducer=(currPostList,action)=>{
       {
        newPostList=[action.payload,...newPostList];
       }
+      else if(action.type==="ADD_ALL_POST")
+        {
+          newPostList=action.payload.posts;
+        }
   return newPostList;
 }
 
 //created provider for the Context
 const PostListProvider=({children})=>{
   
-  const [postList, dispatchPostList]=useReducer(postListReducer,DEFAULT_POST_LIST);
+  const [postList, dispatchPostList]=useReducer(postListReducer,[]);
 
   const addPost=(userId,postTitle,postBody,reactions,tags)=>{
     dispatchPostList({
@@ -45,6 +50,16 @@ const PostListProvider=({children})=>{
       payload:{
         id:Date.now(),
         userId,title:postTitle,body:postBody,reactions,tags
+      }
+    });
+  }
+
+  const addAllPost=(posts)=>{
+    
+    dispatchPostList({
+      type:"ADD_ALL_POST",
+      payload:{
+        posts
       }
     });
 
@@ -60,7 +75,7 @@ const PostListProvider=({children})=>{
   }
 
   return(
-    <PostListContext.Provider value={{postList:postList,addPost: addPost,deletePost: deletePost}}>
+    <PostListContext.Provider value={{postList:postList,addPost: addPost,deletePost: deletePost,addAllPost:addAllPost}}>
         {children}
     </PostListContext.Provider>
   )

@@ -13,7 +13,8 @@ const Post = ({post}) => {
         <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" onClick={()=>deletePost(post.id)}>
               <AiFillDelete />
         </span>
-        <p className="card-text">{post.body}</p>
+        <p className="card-text">{post.body ?? post?.description
+}</p>
         {post.tags.map((item)=>{
           return(
           <span key={item} className={`badge text-bg-primary ${styles.post_tags}`} >{item}</span>
