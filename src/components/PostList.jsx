@@ -5,24 +5,9 @@ import Welcome from "./Welcome";
 import LoadingSpinner from "./LoadingSpinner";
 
 const PostList = () => {
-  const { postList, addAllPost } = useContext(PostListContext);
+  const { postList, fetchedPost } = useContext(PostListContext);
 
-  const [fetchedPost, setFetchedPost] = useState(false);
-
-  useEffect(() => {
-        setFetchedPost(true);
-        fetch("https://dummyjson.com/products")
-        .then((res) => res.json())
-        .then((data) => {
-          addAllPost(data.products);
-          setFetchedPost(false);
-        });
-
-        return()=>{
-          console.log("cleaning up useeffect")
-        }
-
-  }, []);
+ 
 
   return (
     <>

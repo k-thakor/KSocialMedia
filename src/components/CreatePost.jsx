@@ -18,7 +18,20 @@ const CreatePost = ({setSelectedTab}) => {
     const reactions=reactionsElement.current.value;
     const tags=(tagsElement.current.value).split(" ");
 
-    addPost(userId,postTitle,postBody,reactions,tags);
+
+    fetch('https://dummyjson.com/posts/add', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        title: postTitle,
+        userId: userId,
+        tags:tags,
+        body:postBody,
+        reactions:reactions,
+      })
+    })
+    .then(res => res.json())
+    .then(data=> addPost(data));
 
     userIdElement.current.value="";
     postTitleElement.current.value="";
@@ -49,6 +62,7 @@ const CreatePost = ({setSelectedTab}) => {
     <div className="mb-3">
       <label htmlFor="tags" className="form-label">Enter your HashTags</label>
       <input type="text" ref={tagsElement} className="form-control" id="tags" placeholder="Enter tags by space"/>
+
     </div>
     <button type="submit" className="btn btn-primary">Submit</button>
   </form>
