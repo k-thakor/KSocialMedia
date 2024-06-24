@@ -1,4 +1,4 @@
-import { createContext, useReducer } from "react";
+import { createContext, useEffect, useReducer, useState } from "react";
 
 const DEFAULT_POST_LIST=[{
   id:'1',
@@ -19,11 +19,12 @@ const DEFAULT_POST_LIST=[{
 export const PostListContext=createContext({postList:[], 
   addPost:()=>{},
   deletePost:()=>{},
-  addAllPost:()=>{}
+  fetchedPost:Boolean
 })
 
 const postListReducer=(currPostList,action)=>{
     let newPostList=currPostList;
+    console.log(action.payload)
     if(action.type==="DELETE_POST")
     {
       newPostList=currPostList.filter((post)=>post.id !==action.payload.postId)
@@ -44,18 +45,17 @@ const PostListProvider=({children})=>{
   
   const [postList, dispatchPostList]=useReducer(postListReducer,[]);
 
-  const addPost=(userId,postTitle,postBody,reactions,tags)=>{
+  const [fetchedPost, setFetchedPost] = useState(false);
+
+  const addPost=(postData)=>{
     dispatchPostList({
       type:"ADD_POST",
-      payload:{
-        id:Date.now(),
-        userId,title:postTitle,body:postBody,reactions,tags
-      }
+      payload: postData
+      
     });
   }
 
-  const addAllPost=(posts)=>{
-    
+  const addAllPost=(posts)=>{ 
     dispatchPostList({
       type:"ADD_ALL_POST",
       payload:{
@@ -74,8 +74,24 @@ const PostListProvider=({children})=>{
     });
   }
 
+  useEffect(() => {
+    setFetchedPost(true);
+    fetch("https://dummyjson.com/products")
+    .then((res) => res.json())
+    .then((data) => {
+      addAllPost(data.products);
+      setFetchedPost(false);
+    });
+
+    return()=>{
+      console.log("cleaning up useeffect")
+    }
+
+}, []);
+
+
   return(
-    <PostListContext.Provider value={{postList:postList,addPost: addPost,deletePost: deletePost,addAllPost:addAllPost}}>
+    <PostListContext.Provider value={{postList:postList,addPost: addPost,deletePost: deletePost,fetchedPost:fetchedPost}}>
         {children}
     </PostListContext.Provider>
   )
