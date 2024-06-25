@@ -1,7 +1,10 @@
 import { useContext, useRef } from "react";
 import styles from "./CreatePost.module.css";
 import { PostListContext } from "../store/post-list-store";
-const CreatePost = ({setSelectedTab}) => {
+import { useNavigate } from "react-router-dom";
+const CreatePost = () => {
+
+  const navigate=useNavigate();
 
   const userIdElement =useRef();
   const postTitleElement =useRef();
@@ -39,7 +42,8 @@ const CreatePost = ({setSelectedTab}) => {
     reactionsElement.current.value="";
     tagsElement.current.value="";
 
-    setSelectedTab("Home");
+    navigate("/")
+
   }
   return (
     <form className={styles.create_post} onSubmit={(event)=>handleSubmit(event)}>
