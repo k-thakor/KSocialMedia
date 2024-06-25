@@ -74,21 +74,6 @@ const PostListProvider=({children})=>{
     });
   }
 
-  useEffect(() => {
-    setFetchedPost(true);
-    fetch("https://dummyjson.com/products")
-    .then((res) => res.json())
-    .then((data) => {
-      addAllPost(data.products);
-      setFetchedPost(false);
-    });
-
-    return()=>{
-      console.log("cleaning up useeffect")
-    }
-
-}, []);
-
 
   return(
     <PostListContext.Provider value={{postList:postList,addPost: addPost,deletePost: deletePost,fetchedPost:fetchedPost}}>
